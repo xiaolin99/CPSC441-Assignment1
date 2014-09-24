@@ -9,22 +9,10 @@ import java.io.*;
  * http://www.java-samples.com/java/geturl-using-SOCKET-connection-freejavasample.htm
  */
 public class HTTrack {
+	
 
-	/**
-	 * @param args
-	 * @throws MalformedURLException 
-	 */
-	public static void main(String[] args) throws MalformedURLException {
-		URL aURL = new URL(args[0]);
-		String host = aURL.getHost();
-		String path = aURL.getPath();
-		
-		// try guessing the port number
-		int port = aURL.getPort();
-		if (port == -1) port = aURL.getDefaultPort();
-		if (port == -1) port = 80;
-		
-		
+	private static void downloadFromURL(String host, String path, int port){
+	
 		try
 		{
 			File downloadFile = new File("./"+host+path);
@@ -42,8 +30,15 @@ public class HTTrack {
 			while (line != null) {
 				System.out.println(line);
 				fileWriter.println(line);
-				if (line.toLowerCase().contains("<a href>")) {
+				if (line.toLowerCase().contains("<a href=")) {
 					// recursively download more URL
+					String refLink = "";
+					try {
+						URL refURL = new URL(refLink);
+					}
+					catch (MalformedURLException e) {
+						
+					}
 				}
 				line = download.readLine();
 			}
@@ -57,6 +52,24 @@ public class HTTrack {
 			e.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * @param args
+	 * @throws MalformedURLException 
+	 */
+	public static void main(String[] args) throws MalformedURLException {
+		URL aURL = new URL(args[0]);
+		String host = aURL.getHost();
+		String path = aURL.getPath();
+		
+		// try guessing the port number
+		int port = aURL.getPort();
+		if (port == -1) port = aURL.getDefaultPort();
+		if (port == -1) port = 80;
+		
+		downloadFromURL(host, path, port);
+		
 	}
 
 }

@@ -18,7 +18,6 @@ public class HTTrack {
 		URL aURL = new URL(args[0]);
 		String host = aURL.getHost();
 		String path = aURL.getPath();
-		String filename = aURL.getFile();
 		
 		// try guessing the port number
 		int port = aURL.getPort();
@@ -28,6 +27,10 @@ public class HTTrack {
 		
 		try
 		{
+			File downloadFile = new File("./"+host+path);
+			downloadFile.getParentFile().mkdirs();
+			PrintWriter fileWriter = new PrintWriter(downloadFile);
+			
 			Socket socket = new Socket(host, port);
 			PrintWriter request = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())));
 			request.println("GET "+path+ " HTTP/1.0");
@@ -36,13 +39,17 @@ public class HTTrack {
 			
 			BufferedReader download = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			String line = download.readLine();
-			while (line  != null) {
+			while (line != null) {
 				System.out.println(line);
+				fileWriter.println(line);
+				if (line.toLowerCase().contains("<a href>")) {
+					// recursively download more URL
+				}
 				line = download.readLine();
 			}
+			
 			download.close();
-			
-			
+			fileWriter.close();
 			socket.close();
 
 		}catch(Exception e)

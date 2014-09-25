@@ -76,9 +76,9 @@ public class HTTrack {
 
 			while (line != null) {
 				fileWriter.println(line);
-				if (line.toLowerCase().contains("<a href=") && firstPage == aURL.getPath()) {
-					// recursively download more from referenced link "a href"
-					int startIndex = line.indexOf("href=")+6;
+				if (line.toLowerCase().contains("href=") && firstPage == aURL.getPath()) {
+					// recursively download more from referenced link "href"
+					int startIndex = line.toLowerCase().indexOf("href=")+6;
 					int endIndex = line.indexOf('\"', startIndex);
 					String refLink = line.substring(startIndex, endIndex);
 					if (refLink.startsWith("http://")) {

@@ -59,6 +59,10 @@ public class HTTrack {
 	 * @throws MalformedURLException 
 	 */
 	public static void main(String[] args) throws MalformedURLException {
+		if (args.length != 1) {
+			System.out.println("Please enter a URL");
+			System.exit(1);
+		}
 		URL aURL = new URL(args[0]);
 		String host = aURL.getHost();
 		String path = aURL.getPath();

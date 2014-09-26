@@ -6,7 +6,20 @@ import java.io.*;
 import java.net.*;
 
 public class WebServer {
-
+	
+	class connectionThread implements Runnable {
+		private Socket con;
+		public connectionThread(Socket con) {
+			this.con = con;
+		}
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
 	private static void serverListener(int port) {
 		try {
 			ServerSocket serverSocket = new ServerSocket(port);
@@ -92,3 +105,5 @@ public class WebServer {
 	}
 
 }
+
+

@@ -117,6 +117,14 @@ public class HTTrack {
 		URL aURL = new URL(args[0]);
 		downloadFromURL(aURL, aURL.getPath());
 		
+		// keeping a record of downloaded websites
+		try {
+			File metadata = new File("downloadedWebsite.txt");
+			PrintWriter fileWriter = new PrintWriter(new FileWriter(metadata, true));
+			fileWriter.println(args[0]);
+		}
+		catch (Exception e) {
+			System.out.println("Unable to create metadata");
+		}
 	}
-
 }

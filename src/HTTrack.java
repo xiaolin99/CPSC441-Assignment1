@@ -5,7 +5,6 @@
  * http://www.java-samples.com/java/geturl-using-SOCKET-connection-freejavasample.htm
  */
 import java.net.*;
-import java.nio.file.Files;
 import java.io.*;
 
 public class HTTrack {
@@ -64,10 +63,12 @@ public class HTTrack {
 				DataInputStream in = new DataInputStream(socket.getInputStream());
 				int count;
 				byte[] buffer = new byte[2048];
-				while ((count = in.read(buffer)) != -1)
+				count = in.read(buffer);
+				while (count != -1)
 				{
 				  os.write(buffer, 0, count);
 				  os.flush();
+				  count = in.read(buffer);
 				}
 				in.close();
 				os.close();

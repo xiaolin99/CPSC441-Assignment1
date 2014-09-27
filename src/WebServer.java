@@ -53,10 +53,12 @@ class connectionThread implements Runnable {
 					InputStream in = new FileInputStream(file);
 					int count;
 					byte[] buffer = new byte[2048];
-					while ((count = in.read(buffer)) != -1)
+					count = in.read(buffer);
+					while (count != -1)
 					{
 					  response.write(buffer, 0, count);
 					  response.flush();
+					  count = in.read(buffer);
 					}
 					in.close();
 					
@@ -76,6 +78,7 @@ class connectionThread implements Runnable {
 			response.close();
 			request.close();
 			con.close();
+			System.out.println("Connection terminated");
 		}
 		catch (Exception e) {
 			System.out.println("Connection terminated");
@@ -94,13 +97,15 @@ public class WebServer {
 	 */
 	private static void threadedServerListener(int port) {
 		try {
+			boolean serverOn = true;
 			ServerSocket serverSocket = new ServerSocket(port);
 			System.out.println("Server started");
-			while (true) {
+			while (serverOn) {
 				// when there is a incoming connection, spawn a thread
 				Socket connection = serverSocket.accept();
 				new Thread(new connectionThread(connection)).start();
 			}
+			serverSocket.close();
 		}
 		catch (Exception e) {
 			System.out.println("Server terminated (port already in use?)");

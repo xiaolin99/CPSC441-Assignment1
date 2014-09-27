@@ -30,6 +30,7 @@ public class WebSync {
 				if (field.startsWith("Last-Modified")) modifiedDate = field.substring(field.indexOf(' ')+1);
 				field = header.readLine();
 			}
+			header.close();
 		} catch (Exception e) {}
 		System.out.println("Modified Date: " + modifiedDate);
 		
@@ -67,11 +68,13 @@ public class WebSync {
 			OutputStream os = new FileOutputStream("./"+host+path);
 			DataInputStream in = new DataInputStream(socket.getInputStream());
 			int count;
-			byte[] buffer = new byte[2048];
-			while ((count = in.read(buffer)) != -1)
+			byte[] buffer = new byte[1024];
+			count = in.read(buffer);
+			while (count != -1)
 			{
 			  os.write(buffer, 0, count);
 			  os.flush();
+			  count = in.read(buffer);
 			}
 			in.close();
 			os.close();

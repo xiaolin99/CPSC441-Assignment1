@@ -62,7 +62,7 @@ public class HTTrack {
 			if (!isText) {
 				OutputStream os = new FileOutputStream("./"+host+path);
 				DataInputStream in = new DataInputStream(socket.getInputStream());
-				int count;
+				int count = 0;
 				byte[] buffer = new byte[2048];
 				count = in.read(buffer);
 				while (count != -1)

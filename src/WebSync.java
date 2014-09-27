@@ -54,32 +54,52 @@ public class WebSync {
 			}
 			
 			System.out.println("Webpage modified. Updating ...");
-			// write out header to a separate file
+			boolean isText = false;
+			
+			// write out header to a separate file in case we need it later
 			File downloadHeader = new File("./"+host+path+".header");
 			downloadHeader.getParentFile().mkdirs();
 			PrintWriter headerWriter = new PrintWriter(downloadHeader);
 			while (line != null) {
 				headerWriter.println(line);
+				if (line.contains("Content-Type: text")) isText = true;
 				if (line.length() == 0) break;
 				line = download.readLine();
 			}
 			headerWriter.close();
 			
-			OutputStream os = new FileOutputStream("./"+host+path);
-			DataInputStream in = new DataInputStream(socket.getInputStream());
-			int count;
-			byte[] buffer = new byte[1024];
-			count = in.read(buffer);
-			while (count != -1)
-			{
-			  os.write(buffer, 0, count);
-			  os.flush();
-			  count = in.read(buffer);
+			// if response is not text (i.e. image), write byte directly to file
+			if (!isText) {
+				OutputStream os = new FileOutputStream("./"+host+path);
+				DataInputStream in = new DataInputStream(socket.getInputStream());
+				int count = 0;
+				byte[] buffer = new byte[2048];
+				count = in.read(buffer);
+				while (count != -1)
+				{
+				  os.write(buffer, 0, count);
+				  os.flush();
+				  count = in.read(buffer);
+				}
+				in.close();
+				os.close();
+				socket.close();
+				download.close();
+				return;
 			}
-			in.close();
-			os.close();
-			socket.close();
+			
+			// if response if text, write text file
+			File downloadFile = new File("./"+host+path);
+			PrintWriter fileWriter = new PrintWriter(downloadFile);
+			line = download.readLine();
+			while (line != null) {
+				fileWriter.println(line);
+				line = download.readLine();
+			}
+					
 			download.close();
+			fileWriter.close();
+			socket.close();
 			
 		}catch(Exception e)
 		{

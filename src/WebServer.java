@@ -37,7 +37,7 @@ class connectionThread implements Runnable {
 
 					// send message body
 					InputStream in = new FileInputStream(file);
-					int count;
+					int count = 0;
 					byte[] buffer = new byte[2048];
 					count = in.read(buffer);
 					while (count != -1)

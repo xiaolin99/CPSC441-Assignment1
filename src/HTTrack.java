@@ -30,6 +30,7 @@ public class HTTrack {
 			request.flush();
 			BufferedReader download = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			String line = download.readLine();
+			System.out.println(line);
 			// is the response 200 OK?
 			if (!line.contains("200")) {
 				download.close();

@@ -1,0 +1,4 @@
+http://people.ucalgary.ca/~mghaderi/cpsc441/test/index.html
+http://people.ucalgary.ca:80/~mghaderi/cpsc441/test/a.html
+http://people.ucalgary.ca:80/~mghaderi/cpsc441/test/dir/dir/dir/a.html
+http://people.ucalgary.ca:80/~mghaderi/cpsc441/test/UofC.gif

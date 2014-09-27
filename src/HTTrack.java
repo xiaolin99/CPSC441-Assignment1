@@ -5,6 +5,7 @@
  * http://www.java-samples.com/java/geturl-using-SOCKET-connection-freejavasample.htm
  */
 import java.net.*;
+import java.nio.file.Files;
 import java.io.*;
 
 public class HTTrack {
@@ -36,6 +37,12 @@ public class HTTrack {
 				socket.close();
 				return;
 			}
+			
+			// keeping a record of downloaded websites
+			File metadata = new File("downloadedWebpage.txt");
+			PrintWriter metadataWriter = new PrintWriter(new FileWriter(metadata, true));
+			metadataWriter.println(aURL.toString());
+			metadataWriter.close();
 	
 			boolean isText = false;
 			
@@ -97,12 +104,15 @@ public class HTTrack {
 			download.close();
 			fileWriter.close();
 			socket.close();
+			
+			
+			
 
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-
+		
 	}
 
 	/**
@@ -115,16 +125,15 @@ public class HTTrack {
 			System.exit(1);
 		}
 		URL aURL = new URL(args[0]);
+		
+		try {
+			new File("downloadedWebpage.txt").delete();
+		}
+		catch (Exception e){
+			// do nothing
+		}
 		downloadFromURL(aURL, aURL.getPath());
 		
-		// keeping a record of downloaded websites
-		try {
-			File metadata = new File("downloadedWebsite.txt");
-			PrintWriter fileWriter = new PrintWriter(new FileWriter(metadata, true));
-			fileWriter.println(args[0]);
-		}
-		catch (Exception e) {
-			System.out.println("Unable to create metadata");
-		}
+		
 	}
 }

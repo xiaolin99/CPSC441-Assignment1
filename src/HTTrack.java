@@ -46,7 +46,7 @@ public class HTTrack {
 	
 			boolean isText = false;
 			
-			// write out header to a separate file
+			// write out header to a separate file in case we need it later
 			File downloadHeader = new File("./"+host+path+".header");
 			downloadHeader.getParentFile().mkdirs();
 			PrintWriter headerWriter = new PrintWriter(downloadHeader);
